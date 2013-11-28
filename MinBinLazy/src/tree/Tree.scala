@@ -1,0 +1,5 @@
+package tree
+
+trait Tree {
+  
+}
