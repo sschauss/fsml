@@ -1,11 +1,7 @@
 package de.sschauss.sle
 
-import scala.util.parsing.combinator._
-import scala.reflect.runtime.universe.{ reify, showRaw }
-import scala.util.parsing.input.Reader
-import scala.util.parsing.input.CharArrayReader
 import scala.io.Source
-import java.io.File
+import scala.util.parsing.combinator.JavaTokenParsers
 
 case class Fsm(val states: List[State])
 
