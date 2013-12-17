@@ -1,0 +1,7 @@
+#import(de.sschauss.sle.fsml.FsmlAst._)
+<%@ val fsm: Fsm %>
+<% val inputs: List[Name] = {
+    val inputsList = for(state <- fsm.states; transition <- state.transitions) yield transition.input
+    inputsList.toSet.toList
+} %>
+public enum Input{#for(input <- inputs)${input}#if(inputs.indexOf(input) != inputs.size - 1), #end #end}
