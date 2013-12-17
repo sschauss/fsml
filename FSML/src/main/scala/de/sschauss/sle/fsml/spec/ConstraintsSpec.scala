@@ -1,12 +1,12 @@
-package de.sschauss.sle.fsml
-
-import scala.io.Source
+package de.sschauss.sle.fsml.spec
 
 import org.specs2.mutable.Specification
+import de.sschauss.sle.fsml._
+import scala.io.Source
 
-class ConstraintsSpec extends Specification {
+class ConstraintsSpec(val cs: String) extends Specification {
 
-  val input = Source.fromFile("src/test/resources/sample.fsml").mkString
+  val input = Source.fromFile(cs).mkString
   val fsm = FsmlParser.parseAll(FsmlParser.parser, input).get
 
   "The FSM" should {
@@ -27,3 +27,4 @@ class ConstraintsSpec extends Specification {
   }
 
 }
+
