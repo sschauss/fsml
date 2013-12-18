@@ -1,13 +1,10 @@
 package de.sschauss.sle.fsml.spec
 
 import org.specs2.mutable.Specification
-import de.sschauss.sle.fsml._
-import scala.io.Source
+import de.sschauss.sle.fsml.FsmlAst._
+import de.sschauss.sle.fsml.FsmlAst
 
-class ConstraintsSpec(val cs: String) extends Specification {
-
-  val input = Source.fromFile(cs).mkString
-  val fsm = FsmlParser.parseAll(FsmlParser.parser, input).get
+class ConstraintsSpec(val fsm: Fsm) extends Specification {
 
   "The FSM" should {
     "has one and only one initial state." in {
@@ -23,6 +20,25 @@ class ConstraintsSpec(val cs: String) extends Specification {
         inputs.toSet.size == inputs.size
       }
       uniqueInputList.forall(x => x)
+    }
+    "has only defined referenced target states" in {
+      val targetStateIds = for(state <- fsm.states; transition <- state.transitions; if(transition.id.isDefined)) yield transition.id.get
+      val definedStateIds = for(state <- fsm.states) yield state.id
+      targetStateIds.toSet -- definedStateIds.toSet must have size(0)
+    }
+    "has only reacheable states." in {
+      val initial = fsm.states.filter(state => state.initial).head
+      fsm.states.collect({case State(_, id, _) => id}).toSet -- reachable(initial) must have size(0)
+    }
+  }
+
+  def reachable(state: State): Set[Name] = reachable(Set(state.id), Set())
+
+  def reachable(statesToVisit: Set[Name], reachableStates: Set[Name]): Set[Name] = statesToVisit.toSeq match {
+    case Seq() => reachableStates
+    case Seq(x, xs@_*) => {
+      val states = for(transition <- fsm.states.filter(state => state.id == x).head.transitions; if(transition.id.isDefined)) yield transition.id.get
+      reachable((states.toSet ++ statesToVisit) -- (reachableStates + x), reachableStates + x)
     }
   }
 

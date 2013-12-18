@@ -54,7 +54,11 @@
     <orderEntry type="library" scope="PROVIDED" name="SBT: SBT: scala-compiler:2.10.3" level="project" />
     <orderEntry type="library" name="SBT: SBT: org.fusesource.scalate:scalate-core_2.10:1.6.1" level="project" />
     <orderEntry type="library" name="SBT: SBT: org.fusesource.scalate:scalate-util_2.10:1.6.1" level="project" />
-    <orderEntry type="library" name="SBT: SBT: org.slf4j:slf4j-api:1.6.1" level="project" />
+    <orderEntry type="library" name="SBT: SBT: com.propensive:rapture-io:0.7.2" level="project" />
+    <orderEntry type="library" name="SBT: SBT: at.ait.dme.forcelayout:scala-force-layout_2.10:0.4.0" level="project" />
+    <orderEntry type="library" name="SBT: SBT: org.slf4j:slf4j-api:1.7.5" level="project" />
+    <orderEntry type="library" name="SBT: SBT: log4j:log4j:1.2.17" level="project" />
+    <orderEntry type="library" name="SBT: SBT: org.slf4j:slf4j-log4j12:1.7.5" level="project" />
   </component>
 </module>
 
