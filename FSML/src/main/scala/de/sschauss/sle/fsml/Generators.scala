@@ -4,6 +4,7 @@ import org.fusesource.scalate.TemplateEngine
 import scala.reflect.io.Path
 import de.sschauss.sle.fsml.FsmlAst._
 import de.sschauss.sle.fsml.FsmlAst.Fsm
+import java.io.File
 
 package object generators {
 
@@ -19,8 +20,10 @@ package object generators {
 
     val languageSuffix: String
 
-    def generate(filename: String, values: Map[String, AnyRef]) =
+    def generate(filename: String, values: Map[String, AnyRef]) = {
+      new File(s"$generateBaseDir/$targetLanguage/${filename.split("/").take(filename.split("/").length - 1).mkString("/")}").mkdirs()
       Path(s"$generateBaseDir/$targetLanguage/$filename.$languageSuffix").toFile.writeAll(templateEngine.layout(s"$templateBaseDir/$targetLanguage/$filename.ssp", values))
+    }
 
   }
 

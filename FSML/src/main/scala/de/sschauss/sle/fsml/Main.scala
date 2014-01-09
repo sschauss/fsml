@@ -8,38 +8,34 @@ object Main extends App {
   val language = args(1)
   val input = args.slice(2, args.length).toList
 
+  print(s"- loading $filename")
   val cs = Source.fromFile(filename).mkString
+  ok
 
-  println(
-    s"""
-      |parse concrete syntax
-    """.stripMargin
-  )
+  print("- parsing")
   val fsm = FsmlParser.parse(cs)
-  println(fsm)
+  ok
 
+  print("- checking")
   FsmChecker.check(fsm)
+  ok
 
-
-  println(
-    s"""
-      |simulate FSM with given input
-    """.stripMargin
-  )
+  println("- simulating")
   FsmlSimulator.simulate(fsm, input)
+  print("-")
+  ok
 
-  println(
-    s"""
-      |generate source code
-    """.stripMargin
-  )
+  print(s"- generate $language source code")
   language match {
-    case "all" => {
+    case "all"  => {
       FsmJavaGenerator.generateJava(fsm, input)
       FsmDotGenerator.generateDot(fsm)
     }
     case "java" => FsmJavaGenerator.generateJava(fsm, input)
-    case "dot" => FsmDotGenerator.generateDot(fsm)
+    case "dot"  => FsmDotGenerator.generateDot(fsm)
   }
+  ok
+
+  def ok = println( s"""\033[32m OK\033[0m""")
 
 }

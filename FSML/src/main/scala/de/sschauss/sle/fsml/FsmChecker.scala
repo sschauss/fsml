@@ -42,7 +42,7 @@ object FsmChecker {
   def reachable(fsm: Fsm, state: State): Set[Name] = reachable(fsm, Set(state.id), Set())
 
   def reachable(fsm: Fsm, statesToVisit: Set[Name], reachableStates: Set[Name]): Set[Name] = statesToVisit.toSeq match {
-    case Seq() => reachableStates
+    case Seq()         => reachableStates
     case Seq(x, xs@_*) => {
       val transitions = fsm.states.find(state => state.id == x) match {
         case Some(state) => state.transitions

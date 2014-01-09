@@ -4,10 +4,13 @@ import org.kiama.util.PositionedParserUtilities
 import de.sschauss.sle.fsml.FsmlAst._
 import scala.language.postfixOps
 import de.sschauss.sle.fsml.exceptions._
+import scala.io.BufferedSource
 
 object FsmlParser extends PositionedParserUtilities {
 
-  def parse(cs: String) = parseAll(parser, cs) match {
+  def parse(cs: BufferedSource): Fsm = parse(cs.mkString)
+
+  def parse(cs: String): Fsm = parseAll(parser, cs) match {
     case Success(fsm, _)     => fsm
     case Failure(message, _) => throw new ParseException(message)
     case Error(message, _)   => throw new ParseException(message)
