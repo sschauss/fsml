@@ -18,4 +18,5 @@ object FsmlPrettyPrinter extends PrettyPrinter {
       case Transition(input, None, Some(id)) => input <+> "-> " <> id <> ";"
       case Transition(input, None, None) => input <> ";"
     }
+
 }

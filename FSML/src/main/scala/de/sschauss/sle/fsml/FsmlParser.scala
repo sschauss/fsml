@@ -3,8 +3,15 @@ package de.sschauss.sle.fsml
 import org.kiama.util.PositionedParserUtilities
 import de.sschauss.sle.fsml.FsmlAst._
 import scala.language.postfixOps
+import de.sschauss.sle.fsml.exceptions._
 
 object FsmlParser extends PositionedParserUtilities {
+
+  def parse(cs: String) = parseAll(parser, cs) match {
+    case Success(fsm, _)     => fsm
+    case Failure(message, _) => throw new ParseException(message)
+    case Error(message, _)   => throw new ParseException(message)
+  }
 
   lazy val parser =
     phrase(fsm)
@@ -20,7 +27,7 @@ object FsmlParser extends PositionedParserUtilities {
 
   lazy val initial: PackratParser[Boolean] =
     "initial" ^^^ true |
-      "" ^^^ false
+      ""      ^^^ false
 
   lazy val id =
     name

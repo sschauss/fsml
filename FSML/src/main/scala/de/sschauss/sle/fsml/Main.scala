@@ -1,19 +1,45 @@
 package de.sschauss.sle.fsml
 
 import scala.io.Source
-import de.sschauss.sle.fsml.spec.ConstraintsSpec
+import de.sschauss.sle.generators.{FsmDotGenerator, FsmJavaGenerator}
 
 object Main extends App {
-  val parser = FsmlParser
-  val generator = FsmlGenerator
-  val simulator = FsmlSimulator
-  val input = Source.fromFile(args(0)).mkString
-  val output = parser.parseAll(parser.parser, input)
-  val sampleInput = args.slice(1, args.length).toList
+  val filename = args(0)
+  val language = args(1)
+  val input = args.slice(2, args.length).toList
 
-  specs2.run(new ConstraintsSpec(output.get))
-  val simOutput = simulator.simulate(output.get, sampleInput)
-  println(simOutput)
-  generator.generateJava(output.get, sampleInput)
+  val cs = Source.fromFile(filename).mkString
+
+  println(
+    s"""
+      |parse concrete syntax
+    """.stripMargin
+  )
+  val fsm = FsmlParser.parse(cs)
+  println(fsm)
+
+  FsmChecker.check(fsm)
+
+
+  println(
+    s"""
+      |simulate FSM with given input
+    """.stripMargin
+  )
+  FsmlSimulator.simulate(fsm, input)
+
+  println(
+    s"""
+      |generate source code
+    """.stripMargin
+  )
+  language match {
+    case "all" => {
+      FsmJavaGenerator.generateJava(fsm, input)
+      FsmDotGenerator.generateDot(fsm)
+    }
+    case "java" => FsmJavaGenerator.generateJava(fsm, input)
+    case "dot" => FsmDotGenerator.generateDot(fsm)
+  }
 
 }

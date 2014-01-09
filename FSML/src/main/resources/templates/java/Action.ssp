@@ -1,2 +1,8 @@
-#import(de.sschauss.sle.fsml.FsmlAst._)<%@ val fsm: Fsm %><% val actions: List[Name] = { val actionsList = for(state <- fsm.states; transition <- state.transitions; if(transition.action.isDefined)) yield transition.action.get; actionsList.toSet.toList } %>
+#import(de.sschauss.sle.fsml.FsmlAst._)
+<%@ val fsm: Fsm %>
+<%
+    val actions: List[Name] = {
+        val actionsList = for(state <- fsm.states; transition <- state.transitions; if(transition.action.isDefined)) yield transition.action.get; actionsList.toSet.toList
+    }
+%>
 public enum Action{#for(action <- actions)${action}#if(actions.indexOf(action) != actions.size - 1), #end #end}

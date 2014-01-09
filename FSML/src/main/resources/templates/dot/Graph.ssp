@@ -1,0 +1,8 @@
+#import(de.sschauss.sle.fsml.FsmlAst._)<%@ val fsm: Fsm %>
+digraph G {
+  graph [concentrate=true]
+  #for(state <- fsm.states)${state.id} [label="${state.id}", shape=ellipse#if(state.initial), style=filled #end]
+  #end
+  #for(state <- fsm.states; transition <- state.transitions)${state.id} -> #match(transition.id)#case(Some(id))${id}#otherwise${state.id}#end [label="${transition.input}#match(transition.action)#case(Some(action))/${action}#otherwise#end"]
+  #end
+}
