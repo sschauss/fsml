@@ -1,10 +1,10 @@
 package de.sschauss.sle.fsml
 
-import de.sschauss.sle.fsml.FsmlAst._
+import de.sschauss.sle.fsml.Ast._
 import de.sschauss.sle.fsml.exceptions._
 
 
-object FsmlSimulator {
+object Simulator {
 
   def simulate(fsm: Fsm, input: List[Name]): List[(Option[Name], Name)] = {
     fsm.states.find(_.initial) match {
@@ -26,16 +26,16 @@ object FsmlSimulator {
                 case Some(action) => println(s"    action")
                 case _            => Unit
               }
-              simulate(fsm, state, is, output :+ (transition.action, id))
+              simulate(fsm, state, is, output :+(transition.action, id))
             }
             case _           => throw new ResolvableException(s"unresolvable state id $id")
           }
           case None     => {
             println(s"    from: $from, input: $i, to: $from")
-            simulate(fsm, currentState, is, output :+ (transition.action, currentState.id))
+            simulate(fsm, currentState, is, output :+(transition.action, currentState.id))
           }
         }
-        case None  => throw new IllegalInputException(s"$i, possible alternatives: ${currentState.transitions.map(_.input).mkString(", ")}")
+        case None             => throw new IllegalInputException(s"$i, possible alternatives: ${currentState.transitions.map(_.input).mkString(", ")}")
       }
     }
   }

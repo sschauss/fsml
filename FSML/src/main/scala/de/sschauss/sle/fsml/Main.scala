@@ -1,7 +1,7 @@
 package de.sschauss.sle.fsml
 
 import scala.io.Source
-import de.sschauss.sle.generators.{FsmDotGenerator, FsmJavaGenerator}
+import de.sschauss.sle.fsml.generators.{DotGenerator, JavaGenerator}
 
 object Main extends App {
   val filename = args(0)
@@ -13,26 +13,26 @@ object Main extends App {
   ok
 
   print("- parsing")
-  val fsm = FsmlParser.parse(cs)
+  val fsm = Parser.parse(cs)
   ok
 
   print("- checking")
-  FsmChecker.check(fsm)
+  Checker.check(fsm)
   ok
 
   println("- simulating")
-  FsmlSimulator.simulate(fsm, input)
+  Simulator.simulate(fsm, input)
   print("-")
   ok
 
   print(s"- generate $language source code")
   language match {
     case "all"  => {
-      FsmJavaGenerator.generateJava(fsm, input)
-      FsmDotGenerator.generateDot(fsm)
+      JavaGenerator.generateJava(fsm, input)
+      DotGenerator.generateDot(fsm)
     }
-    case "java" => FsmJavaGenerator.generateJava(fsm, input)
-    case "dot"  => FsmDotGenerator.generateDot(fsm)
+    case "java" => JavaGenerator.generateJava(fsm, input)
+    case "dot"  => DotGenerator.generateDot(fsm)
   }
   ok
 

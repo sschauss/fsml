@@ -3,7 +3,7 @@ package de.sschauss.sle.fsml
 import org.kiama.attribution.Attributable
 import org.kiama.util.Positioned
 
-object FsmlAst {
+object Ast {
 
   type Name = String
 

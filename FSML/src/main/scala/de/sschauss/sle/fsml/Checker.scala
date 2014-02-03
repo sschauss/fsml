@@ -1,10 +1,10 @@
 package de.sschauss.sle.fsml
 
-import de.sschauss.sle.fsml.FsmlAst._
+import de.sschauss.sle.fsml.Ast._
 import de.sschauss.sle.fsml.exceptions._
 
 
-object FsmChecker {
+object Checker {
 
   def check(fsm: Fsm) = {
     fsmSingleInitial(fsm)
@@ -29,14 +29,16 @@ object FsmChecker {
     case _ => throw new ResolvableException
   }
 
-  def fsmDeterministic(fsm: Fsm) = fsm.states.map(t => {t.transitions.map(_.input).toSet.size == t.transitions.size}).reduce(_&&_) match {
+  def fsmDeterministic(fsm: Fsm) = fsm.states.map(t => {
+    t.transitions.map(_.input).toSet.size == t.transitions.size
+  }).reduce(_ && _) match {
     case true => true
     case _    => throw new DeterministicException
   }
 
   def fsmReachable(fsm: Fsm) = (fsm.states.map(_.id).toSet -- reachable(fsm, fsm.states.filter(_.initial).head)).size match {
-      case 0 => true
-      case _ => throw new ReachableException
+    case 0 => true
+    case _ => throw new ReachableException
   }
 
   def reachable(fsm: Fsm, state: State): Set[Name] = reachable(fsm, Set(state.id), Set())
