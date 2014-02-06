@@ -1,4 +1,4 @@
-#import(de.sschauss.sle.fsml.FsmlAst._)
+#import(de.sschauss.sle.fsml.Ast._)
 <%@ val fsm: Fsm %><%@ val sampleInput: List[Name] %>
 <% var currentState: State = fsm.states.filter(state => state.initial).head %>
 public class Stepper extends StepperBase<State, Input, Action> {

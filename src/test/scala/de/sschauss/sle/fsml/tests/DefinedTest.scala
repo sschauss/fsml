@@ -16,7 +16,7 @@ class DefinedTest extends FreeSpec {
   val determinismNotOk = s"$testResourceBaseDir/determinismNotOk.fsml"
   val reachabilityNotOk = s"$testResourceBaseDir/reachabilityNotOk.fsml"
 
-  /*"The Fsm" - {
+  "The Fsm" - {
     "throw a ParseException for parserError.fsml" in {
       intercept[ParseException] {
         Parser.parse(Source.fromFile(parserError))
@@ -47,6 +47,6 @@ class DefinedTest extends FreeSpec {
         Checker.fsmReachable(Parser.parse(Source.fromFile(reachabilityNotOk)))
       }
     }
-  }*/
+  }
 
 }

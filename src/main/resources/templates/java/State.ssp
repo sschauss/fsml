@@ -1,4 +1,4 @@
-#import(de.sschauss.sle.fsml.FsmlAst._)
+#import(de.sschauss.sle.fsml.Ast._)
 <%@ val fsm: Fsm %>
 <% val states: List[State] = fsm.states %>
 public enum State{#for(state <- states)${state.id}#if(states.indexOf(state) != states.size - 1), #end #end}
