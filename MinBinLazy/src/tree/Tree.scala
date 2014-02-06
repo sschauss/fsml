@@ -1,5 +1,0 @@
-package tree
-
-trait Tree {
-  
-}
