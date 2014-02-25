@@ -1,4 +1,4 @@
-#FSML -> Scala
+#FSML → Scala
 ##Requirements
 - Java runtime v1.6 or later
 - sbt v0.13
