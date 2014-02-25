@@ -6,24 +6,25 @@ import de.sschauss.sle.fsml.Checker
 
 object FsmGenerator {
 
+  def uncheckedFsm = for {
+    states <- Gen.listOf(StateGenerator.state(TransitionGenerator.transition))
+  } yield Fsm(states)
+
   def fsm: Gen[Fsm] = for {
     ids <- Gen.containerOf[Set, Name](Gen.identifier)
     initialId <- Gen.oneOf(ids.toSeq)
-    initialState <- StateGenerator.state(true, initialId, TransitionGenerator.transition(ids.toSeq))
+    initialState <- StateGenerator.state(true, initialId, TransitionGenerator.transition(ids.toList))
   } yield Fsm(initialState :: ids.-(initialId).map(id => (for {
-      state <- StateGenerator.state(false, id, TransitionGenerator.transition(ids.-(id).+(initialId).toSeq))
+      state <- StateGenerator.state(false, id, TransitionGenerator.transition(ids.-(id).+(initialId).toList))
     } yield state).sample.get).toList)
 
-  def fsm(exceptions: Seq[_ >: Exception]): Gen[Fsm] = for {
+  def checkedFsm(exceptions: List[_ >: Exception]) = for {
     fsm <- fsm suchThat {
       fsm => try {
         Checker.check(fsm)
         true
       } catch {
-        case e: Exception => {
-          println(e.getClass, !exceptions.contains(e.getClass))
-          !exceptions.contains(e.getClass)
-        }
+        case e: Exception => !exceptions.contains(e.getClass)
       }
     }
   } yield fsm

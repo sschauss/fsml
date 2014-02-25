@@ -6,14 +6,14 @@ import de.sschauss.sle.fsml.exceptions._
 
 object Simulator {
 
-  def simulate(fsm: Fsm, input: Seq[Name]): Seq[(Option[Name], Name)] = {
+  def simulate(fsm: Fsm, input: List[Name]): List[(Option[Name], Name)] = {
     fsm.states.find(_.initial) match {
-      case Some(state) => simulate(fsm, state, input, Seq())
+      case Some(state) => simulate(fsm, state, input, List())
       case _           => throw new InitialStateException
     }
   }
 
-  def simulate(fsm: Fsm, currentState: State, input: Seq[Name], output: Seq[(Option[Name], Name)]): Seq[(Option[Name], Name)] = {
+  def simulate(fsm: Fsm, currentState: State, input: List[Name], output: List[(Option[Name], Name)]): List[(Option[Name], Name)] = {
     val from = currentState.id
     input match {
       case List()  => output
@@ -23,7 +23,7 @@ object Simulator {
             case Some(state) => {
               println(s"    from: $from, input: $i, to: $id")
               transition.action match {
-                case Some(action) => println(s"    action")
+                case Some(action) => println(s"    $action")
                 case _            => Unit
               }
               simulate(fsm, state, is, output :+(transition.action, id))

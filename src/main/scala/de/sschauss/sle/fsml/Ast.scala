@@ -9,7 +9,7 @@ object Ast {
 
   trait FsmlNode extends Attributable with Positioned
 
-  case class Fsm(val states: Seq[State]) extends FsmlNode
+  case class Fsm(val states: List[State]) extends FsmlNode
 
   case class State(val initial: Boolean, val id: Name, val transitions: Seq[Transition]) extends FsmlNode
 

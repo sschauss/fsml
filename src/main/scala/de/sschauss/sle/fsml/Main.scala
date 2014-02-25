@@ -6,7 +6,7 @@ import de.sschauss.sle.fsml.generators.{DotGenerator, JavaGenerator}
 object Main extends App {
   val filename = args(0)
   val language = args(1)
-  val input = args.slice(2, args.length).toSeq
+  val input = args.slice(2, args.length).toList
 
   print(s"- loading $filename")
   val cs = Source.fromFile(filename).mkString

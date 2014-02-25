@@ -8,7 +8,7 @@ object JavaGenerator extends Generator {
 
   val languageSuffix = "java"
 
-  def generateJava(fsm: Fsm, sampleInput: Seq[Name]) = {
+  def generateJava(fsm: Fsm, sampleInput: List[Name]) = {
     generate("Action", Map("fsm" -> fsm))
     generate("Input", Map("fsm" -> fsm))
     generate("State", Map("fsm" -> fsm))

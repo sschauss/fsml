@@ -43,9 +43,9 @@ object Checker {
 
   def reachable(fsm: Fsm, state: State): Set[Name] = reachable(fsm, Set(state.id), Set())
 
-  def reachable(fsm: Fsm, statesToVisit: Set[Name], reachableStates: Set[Name]): Set[Name] = statesToVisit.toSeq match {
-    case Seq()         => reachableStates
-    case Seq(x, xs@_*) => {
+  def reachable(fsm: Fsm, statesToVisit: Set[Name], reachableStates: Set[Name]): Set[Name] = statesToVisit.toList match {
+    case List()  => reachableStates
+    case x :: xs => {
       val transitions = fsm.states.find(state => state.id == x) match {
         case Some(state) => state.transitions
         case _           => throw new ResolvableException
