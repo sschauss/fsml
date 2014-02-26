@@ -21,3 +21,7 @@ All generated code will be written to `src-gen/main/<language>`.
 #Tests
 
 In the sbt console execute the command `test`.
+
+To test only the parser/simulator:
+- `test parser [--testRuns <numberOfTestRuns>]`
+- `test simulator [--testRuns <numberOfTestRuns>]`
