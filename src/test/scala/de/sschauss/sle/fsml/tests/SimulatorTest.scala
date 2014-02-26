@@ -9,9 +9,7 @@ import org.scalatest.prop.GeneratorDrivenPropertyChecks
 import de.sschauss.sle.fsml.generators.DotGenerator
 
 
-class SimulatorTest extends FreeSpec with GeneratorDrivenPropertyChecks {
-
-  implicit override val generatorDrivenConfig = PropertyCheckConfig(minSuccessful = 100)
+class SimulatorTest extends GeneratedTest {
 
   "Simulator should" - {
     "process successful process input for valid fsms" in {

@@ -5,7 +5,7 @@ import de.sschauss.sle.fsml.{Checker, Parser}
 import scala.io.Source
 import org.scalatest.FreeSpec
 
-class DefinedTest extends FreeSpec {
+class PredefinedTest extends FreeSpec {
 
   val testResourceBaseDir = "src/test/resources"
 

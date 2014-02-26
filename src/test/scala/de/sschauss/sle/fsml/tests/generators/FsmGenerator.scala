@@ -11,23 +11,21 @@ object FsmGenerator {
   } yield Fsm(states)
 
   def fsm: Gen[Fsm] = for {
-    ids <- Gen.containerOf[Set, Name](Gen.identifier)
+    ids <- IdGenerator.ids
     initialId <- Gen.oneOf(ids.toSeq)
     initialState <- StateGenerator.state(true, initialId, TransitionGenerator.transition(ids.toList))
   } yield Fsm(initialState :: ids.-(initialId).map(id => (for {
       state <- StateGenerator.state(false, id, TransitionGenerator.transition(ids.-(id).+(initialId).toList))
     } yield state).sample.get).toList)
 
-  def checkedFsm(exceptions: List[_ >: Exception]) = for {
-    fsm <- fsm suchThat {
-      fsm => try {
-        Checker.check(fsm)
-        true
-      } catch {
-        case e: Exception => !exceptions.contains(e.getClass)
-      }
-    }
-  } yield fsm
 
+  def checkedFsm(exceptions: List[_ >: Exception]) = fsm suchThat {
+    fsm => try {
+      Checker.check(fsm)
+      true
+    } catch {
+      case e: Exception => !exceptions.contains(e.getClass)
+    }
+  }
 
 }
