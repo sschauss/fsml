@@ -24,3 +24,4 @@ In the sbt console execute the command `test`.
 
 To test only the parser/simulator:
 - `test parser [--testRuns <numberOfTestRuns>]`
+- `test simulator [--testRuns <numberOfTestRuns>]`
